@@ -24,9 +24,6 @@ public class FindTheCastle extends JPanel {
     int [][] objectLayer;
     BufferedImage tileset;
 
-    this.setFocusable(true);
-    this.addKeyListener(player);
-
     private void init() {
         try {
             tileset = ImageIO.read(new File("src/tilemap_packed.png"));
@@ -140,7 +137,10 @@ public class FindTheCastle extends JPanel {
         setBackground(Color.GRAY);
         init();
 
-        Timer timer = new Timer(16, new ActionListener() {
+        this.setFocusable(true); //kad reaguotu i klavisus kazkas is JPanel klases
+        this.addKeyListener(player);//player klase igyvendina KeyListener
+
+        Timer timer = new Timer(16, new ActionListener() {// nesuprantu, bet timeris kuris padaro, kad perpiestu vaizda
             @Override
             public void actionPerformed(ActionEvent e) {
                 player.update();  // atnaujina poziciją
@@ -148,17 +148,11 @@ public class FindTheCastle extends JPanel {
             }
         });
         timer.start();
-
     }
 
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        super.paintComponent(g); //isvalo fona ir piesia nauja
         Graphics2D g2d = (Graphics2D) g;
-
-        // Interpolation & antialiasing OFF kad tarpu nebutu
-        //g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        //g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        //g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 
         for (int r = 0; r < rowCount; r++) {
             for (int c = 0; c < colCount; c++) {

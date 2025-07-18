@@ -18,7 +18,6 @@ public class Main {
         frame.add(findTheCastleGame);
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
+        frame.setVisible(true);//automatiskai repaint pakvieciamas pirma kart wow
     }
 }

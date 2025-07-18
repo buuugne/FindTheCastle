@@ -18,14 +18,53 @@ public class Player implements KeyListener {
     BufferedImage spreadsheet;
     int frameWidth = 64;
     int frameHeight = 64;
+    int frameTick = 10;
+    int maxFrames = 9;
+    int directionIndex = 0;//0 - up, 1 - left, 2 - down, 3 - right
+    int animationFrame = 0;       // Kuris kadras animacijoje (0..maxFrames-1) ju yra 9
+    int animationSpeed = 10;      // Kiek `update()` kvietimų reikia iki sek. kadro
+
 
     boolean up, down, left, right;
 
     public void update(){
-        if(up) y -= speed;
-        if(down) y += speed;
-        if(left) x -= speed;
-        if(right) x += speed;
+        boolean moving = false;
+
+        if(up) {
+            y -= speed;
+            directionIndex = 0;
+            moving = true;
+        }
+        if(left) {
+            x -= speed;
+            directionIndex = 1;
+            moving = true;
+        }
+        if(down) {
+            y += speed;
+            directionIndex = 2;
+            moving = true;
+        }
+        if(right) {
+            x += speed;
+            directionIndex = 3;
+            moving = true;
+        }
+
+        if(moving) {
+            frameTick++;
+            if(frameTick >= animationSpeed)
+            {
+                animationFrame++;
+                frameTick = 0;
+            }
+            if(animationFrame >= maxFrames) {
+                animationFrame = 0;
+            }
+        }
+        else {
+            animationFrame = 0; // kai nejudam – stovim pirmam frame
+        }
     }
 
     @Override
@@ -50,7 +89,8 @@ public class Player implements KeyListener {
     public void keyTyped(KeyEvent e) {};
 
     public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g; //graphics to 2d graphics (daugiau galimybiu)
+        character = spreadsheet.getSubimage(animationFrame * frameWidth, directionIndex * frameHeight, frameWidth, frameHeight);
         g2d.drawImage(character, x, y, null);
     }
 
