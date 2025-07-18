@@ -11,9 +11,9 @@ import java.io.File;
 
 
 public class FindTheCastle extends JPanel {
-    private int rowCount = 32;
-    private int colCount = 32;
-    private int tileSize = 32;
+    private int rowCount = 42;
+    private int colCount = 34;
+    private int tileSize = 16;
     private int boardWidth = colCount * tileSize;
     private int boardHeight = rowCount * tileSize;
 
@@ -22,7 +22,7 @@ public class FindTheCastle extends JPanel {
 
     private void init() {
         try {
-            tileset = ImageIO.read(new File("src/paddedtilemap.png"));
+            tileset = ImageIO.read(new File("src/tilemap_packed.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,10 +86,10 @@ public class FindTheCastle extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        // Interpolation & antialiasing OFF
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        // Interpolation & antialiasing OFF kad tarpu nebutu
+        //g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        //g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        //g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 
         for (int r = 0; r < rowCount; r++) {
             for (int c = 0; c < colCount; c++) {

@@ -2,9 +2,9 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) throws Exception{
-        int rowCount = 32;
-        int colCount = 32;
-        int tileSize = 32;
+        int rowCount = 42;
+        int colCount = 34;
+        int tileSize = 16;
         int boardWidth = colCount * tileSize;
         int boardHeight = rowCount * tileSize;
 
