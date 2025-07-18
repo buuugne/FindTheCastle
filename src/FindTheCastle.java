@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Random;
 import javax.swing.*;
+import javax.swing.Timer;
 
 import javax.imageio.ImageIO; //tam, kad galeciau sukurti nuotrauka kaip objekta
 import java.awt.image.BufferedImage;
@@ -17,9 +18,14 @@ public class FindTheCastle extends JPanel {
     private int boardWidth = colCount * tileSize;
     private int boardHeight = rowCount * tileSize;
 
+    private Player player;
+
     int [][] groundLayer;
     int [][] objectLayer;
     BufferedImage tileset;
+
+    this.setFocusable(true);
+    this.addKeyListener(player);
 
     private void init() {
         try {
@@ -27,6 +33,8 @@ public class FindTheCastle extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        player = new Player(100, 100);
 
         groundLayer = new int[][] {
                 {0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0},
@@ -131,6 +139,16 @@ public class FindTheCastle extends JPanel {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.GRAY);
         init();
+
+        Timer timer = new Timer(16, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.update();  // atnaujina poziciją
+                repaint();        // perpiešia visą ekraną
+            }
+        });
+        timer.start();
+
     }
 
     protected void paintComponent(Graphics g) {
@@ -163,6 +181,8 @@ public class FindTheCastle extends JPanel {
                 }
             }
         }
+
+        player.draw(g);
     }
 
 }
