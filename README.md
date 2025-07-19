@@ -1,2 +1,2 @@
 # Java 2D game
-Nothing is working.
+Can you escape the labirinth and find the castle? Be witty or get lost!
