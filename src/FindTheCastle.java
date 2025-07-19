@@ -31,7 +31,7 @@ public class FindTheCastle extends JPanel {
             e.printStackTrace();
         }
 
-        player = new Player(100, 100);
+        player = new Player(0, 0, boardWidth, boardHeight);
 
         groundLayer = new int[][] {
                 {0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0},
