@@ -24,30 +24,59 @@ public class Player implements KeyListener {
     int animationFrame = 0;       // Kuris kadras animacijoje ju yra 9
     int animationSpeed = 10;      // Kiek `update()` kvietimų reikia iki sek. kadro
     int boardWidth, boardHeight;
-
+    int objectLayer [][];
+    int tileSize = 16;
 
     boolean up, down, left, right;
 
     public void update(){
         boolean moving = false;
+        int nextX;
+        int nextY;//reikia apskaiciuot kur judes sekanti kart, jei ant 28 plyteles - neleist
+        int nextTileX;
+        int nextTileY;
 
         if(up) {
-            y -= speed;
+            int topLeft     = objectLayer[(y - speed) / tileSize][x / tileSize];
+            int topRight    = objectLayer[(y - speed) / tileSize][(x + frameWidth - 1) / tileSize];
+
+            if (topLeft != 28 && topRight != 28) {
+                y -= speed;
+            }
+
             directionIndex = 0;
             moving = true;
         }
         if(left) {
-            x -= speed;
+            int topLeft     = objectLayer[y / tileSize][(x - speed) / tileSize];
+            int bottomLeft  = objectLayer[(y + frameHeight - 1) / tileSize][(x - speed) / tileSize];
+
+            if (topLeft != 28 && bottomLeft != 28) {
+                x -= speed;
+            }
+
             directionIndex = 1;
             moving = true;
         }
         if(down) {
-            y += speed;
+            int bottomLeft  = objectLayer[(y + frameHeight + speed - 1) / tileSize][x / tileSize];
+            int bottomRight = objectLayer[(y + frameHeight + speed - 1) / tileSize][(x + frameWidth - 1) / tileSize];
+
+            if (bottomLeft != 28 && bottomRight != 28) {
+                y += speed;
+            }
+
             directionIndex = 2;
             moving = true;
         }
         if(right) {
-            x += speed;
+            int topRight    = objectLayer[y / tileSize][(x + frameWidth + speed - 1) / tileSize];
+            int bottomRight = objectLayer[(y + frameHeight - 1) / tileSize][(x + frameWidth + speed - 1) / tileSize];
+
+            if (topRight != 28 && bottomRight != 28) {
+                x += speed;
+            }
+
             directionIndex = 3;
             moving = true;
         }
@@ -100,18 +129,19 @@ public class Player implements KeyListener {
         Graphics2D g2d = (Graphics2D) g; //graphics to 2d graphics (daugiau galimybiu)
         character = spreadsheet.getSubimage(animationFrame * frameWidth, directionIndex * frameHeight, frameWidth, frameHeight);
 
-        int drawWidth = (int)(frameWidth * scale);   // 64 * 0.25 = 16, mazinam zmogeliuka cia
-        int drawHeight = (int)(frameHeight * scale); // 64 * 0.25 = 16
+        int drawWidth = (int)(frameWidth * scale);   // 64 * 0.3 = 16, mazinam zmogeliuka cia
+        int drawHeight = (int)(frameHeight * scale); // 64 * 0.3 = 16
 
         g2d.drawImage(character, x, y, drawWidth, drawHeight, null);
     }
 
-    Player(int x, int y, int boardWidth, int boardHeight) {
+    Player(int x, int y, int boardWidth, int boardHeight, int objectLayer[][]) {
         this.x = x;
         this.y = y;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.speed = 2;
+        this.objectLayer = objectLayer;
 
         try {
             spreadsheet = ImageIO.read(new File("src/shura.png"));
