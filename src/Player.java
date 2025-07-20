@@ -26,19 +26,21 @@ public class Player implements KeyListener {
     int boardWidth, boardHeight;
     int objectLayer [][];
     int tileSize = 16;
+    int scaledWidth = (int)(frameWidth * 0.3);//nes keiciau character dydi, bet jau nebesuprantu
+    int scaledHeight = (int)(frameHeight * 0.3);
+    int hitboxOffsetX = 3;
+    int hitboxOffsetY = 5;
+    int hitboxWidth = 10;
+    int hitboxHeight = 10;
 
     boolean up, down, left, right;
 
     public void update(){
         boolean moving = false;
-        int nextX;
-        int nextY;//reikia apskaiciuot kur judes sekanti kart, jei ant 28 plyteles - neleist
-        int nextTileX;
-        int nextTileY;
 
-        if(up) {
-            int topLeft     = objectLayer[(y - speed) / tileSize][x / tileSize];
-            int topRight    = objectLayer[(y - speed) / tileSize][(x + frameWidth - 1) / tileSize];
+        if (up) {
+            int topLeft = objectLayer[(y + hitboxOffsetY - speed) / tileSize][(x + hitboxOffsetX) / tileSize];
+            int topRight = objectLayer[(y + hitboxOffsetY - speed) / tileSize][(x + hitboxOffsetX + hitboxWidth - 1) / tileSize];
 
             if (topLeft != 28 && topRight != 28) {
                 y -= speed;
@@ -47,9 +49,9 @@ public class Player implements KeyListener {
             directionIndex = 0;
             moving = true;
         }
-        if(left) {
-            int topLeft     = objectLayer[y / tileSize][(x - speed) / tileSize];
-            int bottomLeft  = objectLayer[(y + frameHeight - 1) / tileSize][(x - speed) / tileSize];
+        if (left) {
+            int topLeft = objectLayer[(y + hitboxOffsetY) / tileSize][(x + hitboxOffsetX - speed) / tileSize];
+            int bottomLeft = objectLayer[(y + hitboxOffsetY + hitboxHeight - 1) / tileSize][(x + hitboxOffsetX - speed) / tileSize];
 
             if (topLeft != 28 && bottomLeft != 28) {
                 x -= speed;
@@ -58,9 +60,9 @@ public class Player implements KeyListener {
             directionIndex = 1;
             moving = true;
         }
-        if(down) {
-            int bottomLeft  = objectLayer[(y + frameHeight + speed - 1) / tileSize][x / tileSize];
-            int bottomRight = objectLayer[(y + frameHeight + speed - 1) / tileSize][(x + frameWidth - 1) / tileSize];
+        if (down) {
+            int bottomLeft = objectLayer[(y + hitboxOffsetY + hitboxHeight - 1 + speed) / tileSize][(x + hitboxOffsetX) / tileSize];
+            int bottomRight = objectLayer[(y + hitboxOffsetY + hitboxHeight - 1 + speed) / tileSize][(x + hitboxOffsetX + hitboxWidth - 1) / tileSize];
 
             if (bottomLeft != 28 && bottomRight != 28) {
                 y += speed;
@@ -69,9 +71,9 @@ public class Player implements KeyListener {
             directionIndex = 2;
             moving = true;
         }
-        if(right) {
-            int topRight    = objectLayer[y / tileSize][(x + frameWidth + speed - 1) / tileSize];
-            int bottomRight = objectLayer[(y + frameHeight - 1) / tileSize][(x + frameWidth + speed - 1) / tileSize];
+        if (right) {
+            int topRight = objectLayer[(y + hitboxOffsetY) / tileSize][(x + hitboxOffsetX + hitboxWidth - 1 + speed) / tileSize];
+            int bottomRight = objectLayer[(y + hitboxOffsetY + hitboxHeight - 1) / tileSize][(x + hitboxOffsetX + hitboxWidth - 1 + speed) / tileSize];
 
             if (topRight != 28 && bottomRight != 28) {
                 x += speed;
